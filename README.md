@@ -1,5 +1,5 @@
 # CodeDocGen--Exploring Automated Code Documentation Generation
-## Corpus: CodeSearchNet , Model: codeBERT
+## Corpus--CodeSearchNet , Model--codeBERT
 
 
 ## Project Overview
