@@ -210,6 +210,7 @@ def evaluate_model(model_path, output_dir):
     bars = plt.bar(metrics.keys(), metrics.values())
     plt.title('Model Evaluation')
     plt.ylabel('Score')
+    plt.ylim(0, 0.30)
     
     for bar in bars:
         height = bar.get_height()
