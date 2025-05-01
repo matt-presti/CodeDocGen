@@ -77,4 +77,4 @@ Running `evaluate_model.py` generates:
   - Model-generated documentation
 - **Detailed logs**: Information about the tokenization process, model configuration, and generation parameters
 
-The evaluation uses optimized generation parameters to maximize output quality given the computational constraints of the project.
+The framework allows for flexible model training and optimization based on computational resources and provides an initial framework for evaluating CodeBERT's utility for automated docstring generation. 
