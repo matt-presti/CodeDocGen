@@ -81,5 +81,6 @@ The framework allows for flexible model training and optimization based on compu
 ### [Project Report](CodeDocGen_finalreport.pdf)
 
 
-### [Project Video] (https://www.youtube.com/watch?v=Hip28PYFmdI)
+### Project Video
+https://www.youtube.com/watch?v=Hip28PYFmdI
 
