@@ -1,4 +1,7 @@
-#train.py 
+# Title: train.py
+# Author: Matthew Presti, @matt-presti
+# Purpose: Process CodeSearch Net dataset, train and configure codeBERT model for
+# docstring generation. 
 
 import torch
 from datasets import load_dataset

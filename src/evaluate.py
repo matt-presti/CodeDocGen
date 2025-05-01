@@ -1,3 +1,8 @@
+# Title: evaluate.py
+# Author: Matthew Presti, @matt-presti
+#Purpose: Use trained model data to generate example doccstrings for test functions and evalaute performance. 
+
+
 import torch
 from transformers import AutoTokenizer, EncoderDecoderModel
 import os
@@ -8,7 +13,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 def evaluate_model(model_path, output_dir):
-    """Evaluation script using only the model for generation with optimized parameters"""
+    """Evaluation script for trained model docstring generation"""
     # Load test data
     print("Loading test data...")
     raw_data = torch.load(os.path.join(output_dir, "data", "test_data.pt"))
@@ -18,6 +23,7 @@ def evaluate_model(model_path, output_dir):
     tokenizer = AutoTokenizer.from_pretrained("microsoft/codebert-base")
     
     # Print special token information for verification
+    # Used for debugging
     print("\n=== TOKENIZER INFORMATION ===")
     print(f"BOS/CLS token: {tokenizer.bos_token} (ID: {tokenizer.bos_token_id})")
     print(f"EOS/SEP token: {tokenizer.eos_token} (ID: {tokenizer.eos_token_id})")
@@ -36,8 +42,9 @@ def evaluate_model(model_path, output_dir):
             "microsoft/codebert-base", "microsoft/codebert-base"
         )
     
-    # Configure generation with CORRECT RoBERTa tokens
+    # Configure generation with RoBERTa tokens
     print("\nSetting generation parameters for RoBERTa tokenizer...")
+
     # RoBERTa uses <s> as BOS/decoder_start_token and </s> as EOS token
     model.config.decoder_start_token_id = tokenizer.bos_token_id
     model.config.eos_token_id = tokenizer.eos_token_id
@@ -70,7 +77,8 @@ def evaluate_model(model_path, output_dir):
     model.eval()
     
     # Get test samples
-    test_codes = raw_data["test_codes"][:10]  # Limit to 10 samples for speed
+    # Limited to 10 samples for speed
+    test_codes = raw_data["test_codes"][:10] 
     test_docs = raw_data["test_docs"][:10]
     
     print("\nGenerating documentation...")
@@ -94,7 +102,7 @@ def evaluate_model(model_path, output_dir):
         
         print(f"Input shape: {input_ids.shape}")
         
-        # Generate with aggressive parameters for longer outputs
+        # Generate with aggressive parameters fto force longer outputs
         try:
             with torch.no_grad():
                 # Try multiple generation strategies if needed
@@ -129,11 +137,11 @@ def evaluate_model(model_path, output_dir):
                         input_ids=input_ids,
                         attention_mask=attention_mask,
                         decoder_start_token_id=tokenizer.bos_token_id,
-                        max_length=200,             # Even longer
+                        max_length=200,             
                         min_length=30,              # Force even longer output
-                        num_beams=8,                # More beams
+                        num_beams=8,               
                         do_sample=True,
-                        temperature=1.5,            # More randomness
+                        temperature=1.5,           
                         top_p=0.98,                 # Keep more tokens
                         top_k=50,                   # Limit to top k tokens
                         length_penalty=3.0,         # Very strong length bias
@@ -147,14 +155,13 @@ def evaluate_model(model_path, output_dir):
             
             # Clean up prediction
             prediction = prediction.replace(" ##", "").replace("##", "")
-            prediction = re.sub(r'\s+([.,;:!?])', r'\1', prediction)  # Fix spacing
-            prediction = re.sub(r'(\s)\1+', r'\1', prediction)        # Remove multiple spaces
+            prediction = re.sub(r'\s+([.,;:!?])', r'\1', prediction)  
+            prediction = re.sub(r'(\s)\1+', r'\1', prediction)       
             
             print(f"Final prediction: '{prediction[:100]}...'")
             
         except Exception as e:
             print(f"Error during generation: {e}")
-            # Still using model output, but creating a minimal one for errors
             prediction = "Function documentation."
         
         predictions.append(prediction)
