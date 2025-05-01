@@ -67,7 +67,6 @@ Parameters for `evaluate.py`:
 
 Running `train.py` generates a **detailed log** about the tokenization process, model configuration, and generation parameters with output  location **./results/model** 
 
-
 Running `evaluate_model.py` generates:
 - **Metrics summary**: ROUGE-1, ROUGE-L, and parameter identification accuracy scores
 - **Metrics visualization**: A bar chart saved as `metrics.png` in the output directory
@@ -78,3 +77,9 @@ Running `evaluate_model.py` generates:
 
 
 The framework allows for flexible model training and optimization based on computational resources and provides an initial framework for evaluating CodeBERT's utility for automated docstring generation. 
+
+### [Project Report](CodeDocGen_finalreport.pdf)
+
+
+### [Project Video] (https://www.youtube.com/watch?v=Hip28PYFmdI)
+
